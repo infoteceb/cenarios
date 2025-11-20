@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard de Cenários</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'background-light': '#E8EAE3',
+              'background-dark': '#1C251D',
+              'surface-light': '#DADBCE',
+              'surface-dark': '#2A362B',
+              'border-light': '#BFC1B6',
+              'border-dark': '#404F42',
+              'primary': '#8D9B7A',
+              'text-primary-light': '#2A362B',
+              'text-primary-dark': '#E8EAE3',
+              'text-secondary-light': '#526253',
+              'text-secondary-dark': '#A9B4A0',
+              'text-on-primary': '#FFFFFF'
+            },
+            fontFamily: {
+              display: ['Roboto Mono', 'monospace']
+            },
+            borderRadius: { DEFAULT: '0.5rem' }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
+    <header class="header mb-8" style="background-color: var(--surface); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <div class="flex items-center justify-between py-2">
+          <div class="brand flex items-center gap-3">
+            <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
+            <div class="brand-text">
+              <h1 class="text-lg font-bold">Dashboard de Cenários</h1>
+              <p class="text-xs text-text-secondary-light">MPTEx - Metodologia de Planejamento Tecnológico do Exército</p>
+            </div>
+          </div>
+          <div class="filters flex flex-wrap items-center gap-2 sm:gap-3">
+            <div class="filter">
+              <label for="userId" class="sr-only">user_id</label>
+              <select id="userId" disabled class="w-40 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                <option value="" selected disabled>Selecione um usuário</option>
+              </select>
+            </div>
+            <div class="filter">
+              <label for="cenarioId" class="sr-only">planejamento (cenario_id)</label>
+              <select id="cenarioId" disabled class="w-56 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                <option value="" selected disabled>Selecione um planejamento</option>
+              </select>
+            </div>
+            <button id="loadBtn" class="btn-primary bg-primary text-text-on-primary px-4 py-2 rounded-md font-semibold text-sm hover:bg-opacity-90 transition-colors">Carregar</button>
+            <a href="tendencias_upload.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light" title="Enviar tendências">Enviar tendências</a>
+            <a href="tendencias_consulta.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center gap-1" title="Consultar tendências">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              Consultar
+            </a>
+            <a href="gerar_cenarios.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center gap-1" title="Gerar cenários">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+              Gerar Cenários
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="debug-wrap container">
+      <label class="debug-toggle"><input type="checkbox" id="debugToggle"> Mostrar debug</label>
+      <div id="debugBar" class="debug-bar" hidden></div>
+    </div>
+
+    <main class="container">
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="matriz-incertezas">
+        <div class="panel-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold">Matriz de Incertezas</h2>
+          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">2 x 2</span>
+        </div>
+        <div class="matrix-2x2 grid grid-cols-1 md:grid-cols-2 gap-6" id="matrizGrid">
+          <div class="cell" data-quadrante="Q1"><h3>Q1</h3><ul class="list"></ul></div>
+          <div class="cell" data-quadrante="Q2"><h3>Q2</h3><ul class="list"></ul></div>
+          <div class="cell" data-quadrante="Q3"><h3>Q3</h3><ul class="list"></ul></div>
+          <div class="cell" data-quadrante="Q4"><h3>Q4</h3><ul class="list"></ul></div>
+        </div>
+      </section>
+
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="enredo">
+        <div class="panel-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold">Enredo</h2>
+          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">Narrativa do Planejamento</span>
+        </div>
+        <div class="cards" id="enredoList"></div>
+      </section>
+
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="cenarios">
+        <div class="panel-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold">Cenários</h2>
+          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">Matriz 2 x 2</span>
+        </div>
+        <div class="matrix-2x2 grid grid-cols-1 md:grid-cols-2 gap-6" id="cenariosGrid">
+          <div class="cell"><h3>Cenário 1</h3><div class="scenario"></div></div>
+          <div class="cell"><h3>Cenário 2</h3><div class="scenario"></div></div>
+          <div class="cell"><h3>Cenário 3</h3><div class="scenario"></div></div>
+          <div class="cell"><h3>Cenário 4</h3><div class="scenario"></div></div>
+        </div>
+      </section>
+
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="ameacas">
+        <div class="panel-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold">Ameaças</h2>
+        </div>
+        <ul class="bulleted" id="ameacasList"></ul>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4" id="smem-futuro">
+          <div class="panel-header flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold">Sistemas Militares Futuros</h2>
+          </div>
+          <ul class="bulleted" id="smemFutList"></ul>
+        </section>
+
+        <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4" id="smem-corrente">
+          <div class="panel-header flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold">Evolução de Sistemas Militares Atuais</h2>
+          </div>
+          <ul class="bulleted" id="smemCorrenteList"></ul>
+        </section>
+      </div>
+
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-4" id="tecnologias">
+        <div class="panel-header flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold">Tecnologias</h2>
+        </div>
+        <div class="cards grid grid-cols-1 sm:grid-cols-2 gap-4" id="tecnologiasList" style="min-height: 0;"></div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <span>Feito para estudos de planejamento • Tema: Moderno Militar • Autoria: TC Ricardo Wagner</span>
+    </footer>
+
+    <script type="module" src="https://esm.sh/@supabase/supabase-js@2.45.4"></script>
+    <script src="config.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

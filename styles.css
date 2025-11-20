@@ -1,0 +1,150 @@
+* { box-sizing: border-box; }
+:root {
+  --bg: #0b1220;
+  --surface: #0f182b;
+  --surface-2: #121d34;
+  --card: #162647;
+  --muted: #9fb0ca;
+  --text: #e6eefc;
+  --primary: #4db6ff;
+  --primary-2: #2a8fe0;
+  --ok: #7be67b;
+  --warn: #ffd166;
+  --danger: #ff6b6b;
+  --border: #24365f;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 800px at 70% -20%, rgba(77,182,255,.15), transparent),
+              radial-gradient(1200px 800px at -20% 120%, rgba(122,189,255,.08), transparent),
+              var(--bg);
+  color: var(--text);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(10,17,32,.8), rgba(10,17,32,.5));
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  display: grid; place-items: center; font-weight: 800; color: #001222;
+  box-shadow: var(--shadow);
+}
+.brand-text h1 { margin: 0; font-size: 18px; letter-spacing: .3px; }
+.brand-text p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+
+.filters { display: flex; align-items: end; gap: 12px; }
+.filter { display: grid; gap: 6px; }
+.filter label { font-size: 12px; color: var(--muted); }
+.filter input {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+}
+.filter select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #001222; border: none; border-radius: 10px; padding: 10px 16px;
+  font-weight: 700; cursor: pointer; box-shadow: var(--shadow);
+}
+.btn-primary:hover { filter: brightness(1.05); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0.5rem 0; display: grid; gap: 20px; }
+.panel {
+  background: linear-gradient(180deg, rgba(22,38,71,.65), rgba(15,24,43,.65));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: clip;
+}
+.panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 0; }
+.panel-header h2 { margin: 0; font-size: 18px; }
+.panel-subtitle { color: var(--muted); font-size: 12px; }
+
+.matrix-2x2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px; }
+.cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.cell h3 { margin: 0 0 8px; color: var(--primary); font-size: 14px; letter-spacing: .4px; }
+.cell .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cell .list li { padding: 8px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); }
+
+.cards { display: grid; grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) ); gap: 12px; padding: 16px; }
+.card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.card h4 { margin: 0 0 6px; font-size: 14px; color: var(--primary); }
+.card p { margin: 4px 0; color: var(--muted); font-size: 13px; }
+
+/* Enredo em largura total */
+#enredoList.cards { grid-template-columns: 1fr; }
+#enredoList .card { width: 100%; }
+#enredoList .card p { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+.bulleted { list-style: none; padding: 16px; margin: 0; display: grid; gap: 8px; }
+.bulleted li { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+
+.app-footer { text-align: center; color: var(--muted); padding: 24px; }
+
+.empty { color: var(--muted); font-size: 13px; padding: 12px 16px; }
+.loading { color: var(--muted); font-size: 13px; padding: 12px 16px; }
+.error { color: var(--danger); font-size: 13px; padding: 12px 16px; }
+
+.scenario { display: grid; gap: 6px; }
+.scenario .line { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+
+/* Debug */
+.debug-wrap { max-width: 1200px; margin: 8px auto 0; padding: 0 16px; display: grid; gap: 6px; }
+.debug-toggle { color: var(--muted); font-size: 12px; }
+.debug-bar { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; white-space: pre-wrap; }
+
+/* ---------------- Light Military Palette Overrides ---------------- */
+:root {
+  --bg: #E8EAE3;            /* background-light */
+  --surface: #DADBCE;       /* surface-light */
+  --surface-2: #E3E5DB;     /* slightly lighter surface */
+  --card: #ECEEE6;          /* card background */
+  --border: #BFC1B6;        /* border-light */
+  --primary: #8D9B7A;       /* primary */
+  --text: #2A362B;          /* text-primary-light */
+  --muted: #526253;         /* text-secondary-light */
+}
+
+body { background: var(--bg); color: var(--text); }
+
+.panel { background: var(--surface); border: 1px solid var(--border); }
+.panel-subtitle { background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+
+.matrix-2x2 .cell { background: var(--surface-2); border: 1px solid var(--border); }
+.matrix-2x2 .cell h3 { color: var(--primary); }
+.matrix-2x2 .cell .list li { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+
+.bulleted li { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); }
+
+#enredoList .card { background: var(--surface-2); border: 1px solid var(--border); }
+#enredoList .card p { color: var(--text); }
+
+.btn-primary { background: var(--primary); color: #fff; }
+.brand-mark { background: var(--primary); color: #fff; }
+
+/* Header should blend with page background */
+.app-header { background: transparent !important; border: none !important; box-shadow: none !important; }

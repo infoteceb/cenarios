@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload de Documentos • Tendências</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'background-light': '#E8EAE3',
+              'background-dark': '#1C251D',
+              'surface-light': '#DADBCE',
+              'surface-dark': '#2A362B',
+              'border-light': '#BFC1B6',
+              'border-dark': '#404F42',
+              'primary': '#8D9B7A',
+              'text-primary-light': '#2A362B',
+              'text-primary-dark': '#E8EAE3',
+              'text-secondary-light': '#526253',
+              'text-secondary-dark': '#A9B4A0',
+              'text-on-primary': '#FFFFFF'
+            },
+            fontFamily: {
+              display: ['Roboto Mono', 'monospace']
+            },
+            borderRadius: { DEFAULT: '0.5rem' }
+          }
+        }
+      };
+    </script>
+    <style>
+      :root {
+        --bg: #E8EAE3;
+        --surface: #DADBCE;
+        --border: #BFC1B6;
+        --primary: #8D9B7A;
+        --text: #2A362B;
+      }
+      html, body { height: 100%; }
+      body {
+        font-family: 'Roboto Mono', monospace;
+        background-color: var(--bg);
+        color: var(--text);
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 ;
+      }
+
+    form {
+      background: var(--surface);
+      padding: 28px 32px;
+      border-radius: 12px;
+      max-width: 100%;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+    }
+
+    h2 { text-align: center; margin: 0 0 20px; font-weight: 800; font-size: 20px; color: var(--primary); }
+
+    label { font-weight: 700; margin-top: 14px; display: block; }
+
+    input[type="email"], select, .file-drop {
+      width: 100%;
+      margin: 10px 0 20px 0;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    input[type="email"]:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(141,155,122,0.22);
+    }
+
+    .file-drop {
+      border: 2px dashed #ccc;
+      padding: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      background-color: #fafafa;
+      font-size: 15px;
+      color: #555;
+    }
+    .file-drop.dragover { background-color: #e6f0ff; border-color: #3366cc; color: #3366cc; }
+
+    #fileList { list-style: none; padding-left: 0; margin-top: 15px; }
+    #fileList li { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; margin: 6px 0; padding: 10px 14px; border-radius: 6px; border: 1px solid #eee; }
+    .file-name { flex-grow: 1; margin-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #333; font-size: 15px; }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .file-item.dark {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+    }
+    .remove-btn {
+      width: 24px;
+      height: 24px;
+      background: #f8f9fa;
+      color: #dc3545;
+      border: 1px solid #dc3545;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .remove-btn:hover {
+      background: #dc3545;
+      color: white;
+    }
+
+    .actions { display:flex; gap:12px; }
+    .btn-primary { flex:1; background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+    .btn-primary:hover { filter: brightness(0.95); }
+    .btn-ghost { padding: 14px 16px; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+  <body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
+    <header class="header" style="background-color: var(--surface); border-bottom: 1px solid var(--border); padding: 0.5rem 0;">
+      <div class="container">
+        <div class="flex items-center justify-between gap-4 py-2">
+          <div class="brand flex items-center gap-3">
+            <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
+            <div class="brand-text">
+              <h1 class="text-lg font-bold">Dashboard de Cenários</h1>
+              <p class="text-xs text-text-secondary-light">Upload de Tendências</p>
+            </div>
+          </div>
+          <a href="index.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-1.5 bg-white hover:bg-surface-light flex items-center gap-1">
+            <i class="fas fa-arrow-left"></i>
+            Voltar
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container py-8 px-4">
+      <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-6">
+        <div class="mb-6 text-center">
+          <h2 class="text-xl font-bold text-primary">Upload de Documentos</h2>
+          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Envie seus arquivos para análise</p>
+        </div>
+        
+        <form id="uploadForm" class="space-y-6 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="email" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+
+            <div class="space-y-2">
+              <label for="dimensao" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Dimensão</label>
+            <select id="dimensao" name="dimensao" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="" disabled selected>Selecione a dimensão</option>
+              <option value="Tecnológica">Tecnológica</option>
+              <option value="Social">Social</option>
+              <option value="Política">Política</option>
+              <option value="Militar">Militar</option>
+            </select>
+            </div>
+
+            <div class="space-y-2">
+              <label for="horizonte" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Horizonte</label>
+            <select id="horizonte" name="horizonte" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="" disabled selected>Selecione o horizonte</option>
+              <option value="2030">2030</option>
+              <option value="2040">2040</option>
+              <option value="2050">2050</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Arquivos</label>
+            <div id="fileDrop" class="border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-8 text-center cursor-pointer hover:bg-surface-light/50 dark:hover:bg-surface-dark/50 transition-colors">
+              <div class="flex flex-col items-center justify-center space-y-2">
+                <span class="material-symbols-outlined text-4xl text-primary">upload_file</span>
+                <p class="font-medium">Arraste os arquivos aqui</p>
+                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">ou clique para selecionar</p>
+              </div>
+            </div>
+            <input type="file" id="fileInput" name="files" class="hidden" multiple>
+          </div>
+
+          <div id="fileList" class="space-y-2"></div>
+
+          <div class="flex justify-end pt-6 border-t border-border-light dark:border-border-dark">
+            <button type="submit" class="px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors flex items-center gap-2">
+              <span class="material-symbols-outlined text-base">upload</span>
+              Enviar Documentos
+            </button>
+          </div>
+      </form>
+    </main>
+
+    <script>
+      const fileDrop = document.getElementById('fileDrop');
+      const fileInput = document.getElementById('fileInput');
+      const fileListDisplay = document.getElementById('fileList');
+      let selectedFiles = [];
+
+      fileDrop.addEventListener('click', () => fileInput.click());
+      fileDrop.addEventListener('dragover', (e) => { e.preventDefault(); fileDrop.classList.add('dragover'); });
+      fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
+      fileDrop.addEventListener('drop', (e) => { e.preventDefault(); fileDrop.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+      fileInput.addEventListener('change', () => { handleFiles(fileInput.files); });
+
+      function handleFiles(files) {
+        for (let i = 0; i < files.length; i++) selectedFiles.push(files[i]);
+        updateFileList();
+      }
+
+      function updateFileList() {
+        fileListDisplay.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+          const fileItem = document.createElement('div');
+          fileItem.className = 'file-item' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
+          
+          const fileInfo = document.createElement('div');
+          fileInfo.className = 'flex items-center gap-2';
+          
+          const fileIcon = document.createElement('span');
+          fileIcon.className = 'material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark';
+          fileIcon.textContent = 'description';
+          
+          const fileName = document.createElement('span');
+          fileName.className = 'text-sm text-text-primary-light dark:text-text-primary-dark';
+          fileName.textContent = file.name;
+          
+          const fileSize = document.createElement('span');
+          fileSize.className = 'text-xs text-text-secondary-light dark:text-text-secondary-dark';
+          fileSize.textContent = `(${(file.size / 1024).toFixed(1)} KB)`;
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.title = 'Remover';
+          removeBtn.onclick = (e) => {
+            e.stopPropagation();
+            selectedFiles.splice(index, 1);
+            updateFileList();
+          };
+          
+          fileInfo.appendChild(fileIcon);
+          fileInfo.appendChild(document.createElement('div')).className = 'flex flex-col';
+          fileInfo.lastChild.appendChild(fileName);
+          fileInfo.lastChild.appendChild(fileSize);
+          
+          fileItem.appendChild(fileInfo);
+          fileItem.appendChild(removeBtn);
+          fileListDisplay.appendChild(fileItem);
+        });
+      }
+
+      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const dimensao = document.getElementById('dimensao').value;
+        const horizonte = document.getElementById('horizonte').value;
+        if (!email || !dimensao || !horizonte || selectedFiles.length === 0) {
+          alert('Por favor, preencha todos os campos e selecione ao menos um arquivo.');
+          return;
+        }
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('dimensao', dimensao);
+        formData.append('horizonte', horizonte);
+        selectedFiles.forEach((file) => formData.append('files[]', file));
+
+        try {
+          const response = await fetch('http://10.4.235.2:5688/webhook-test/in', { method: 'POST', body: formData });
+          const result = await response.text();
+          if (response.ok) {
+            alert('Arquivos enviados com sucesso!');
+            selectedFiles = []; updateFileList(); document.getElementById('uploadForm').reset();
+          } else {
+            alert('Erro no envio: ' + response.status + '\n' + result);
+          }
+        } catch (err) { alert('Erro de conexão:\n' + err.message); }
+      });
+    </script>
+  </body>
+</html>

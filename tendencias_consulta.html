@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Cenários - Consulta de Tendências</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'background-light': '#E8EAE3',
+              'background-dark': '#1C251D',
+              'surface-light': '#DADBCE',
+              'surface-dark': '#2A362B',
+              'border-light': '#BFC1B6',
+              'border-dark': '#404F42',
+              'primary': '#8D9B7A',
+              'text-primary-light': '#2A362B',
+              'text-primary-dark': '#E8EAE3',
+              'text-secondary-light': '#526253',
+              'text-secondary-dark': '#A9B4A0',
+              'text-on-primary': '#FFFFFF'
+            },
+            fontFamily: {
+              display: ['Roboto Mono', 'monospace']
+            },
+            borderRadius: { DEFAULT: '0.5rem' }
+          }
+        }
+      };
+    </script>
+    <style>
+        :root {
+            --primary: #8D9B7A;
+            --primary-hover: #7a866a;
+            --text-primary: #2A362B;
+            --text-secondary: #526253;
+            --border: #BFC1B6;
+            --background: #E8EAE3;
+            --surface: #DADBCE;
+            --error: #E53E3E;
+            --success: #38A169;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo i {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-title i {
+            color: var(--primary);
+        }
+
+        /* Filtros */
+        .filters {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .filters-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            background-color: var(--surface);
+            color: var(--text-primary);
+            height: 38px;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        /* Tabela */
+        .table-container {
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background-color: var(--surface);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            background-color: white;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr:hover td {
+            background-color: var(--background);
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-on-primary);
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .btn-outline:hover {
+            background-color: #F7FAFC;
+        }
+
+        /* Status */
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+        }
+
+        .status i {
+            font-size: 1rem;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="flex items-center justify-between gap-4 py-2">
+                <div class="brand flex items-center gap-3">
+                    <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
+                    <div class="brand-text">
+                        <h1 class="text-lg font-bold">Dashboard de Cenários</h1>
+                        <p class="text-xs text-text-secondary-light">Consulta de Tendências</p>
+                    </div>
+                </div>
+                <a href="index.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-1.5 bg-white hover:bg-surface-light flex items-center gap-1">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <div class="filters">
+                <div class="filters-header">
+                    <h2 class="filters-title">
+                        <i class="fas fa-sliders-h"></i>
+                        Filtros de Busca
+                    </h2>
+                    <button class="btn btn-outline" onclick="clearFilters()">
+                        <i class="fas fa-undo"></i>
+                        Limpar Filtros
+                    </button>
+                </div>
+
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label for="filterDimensao" class="form-label">Dimensão</label>
+                        <select id="filterDimensao" class="form-select" onchange="filterTable()">
+                            <option value="">Todas as Dimensões</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filterHorizonte" class="form-label">Horizonte</label>
+                        <select id="filterHorizonte" class="form-select" onchange="filterTable()">
+                            <option value="">Todos os Horizontes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filterTendencia" class="form-label">Tendência</label>
+                        <select id="filterTendencia" class="form-select" onchange="filterTable()">
+                            <option value="">Todas as Tendências</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filterMotivo" class="form-label">Motivo</label>
+                        <select id="filterMotivo" class="form-select" onchange="filterTable()">
+                            <option value="">Todos os Motivos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filterReferencia" class="form-label">Referência</label>
+                        <select id="filterReferencia" class="form-select" onchange="filterTable()">
+                            <option value="">Todas as Referências</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filterClassificacao" class="form-label">Classificação</label>
+                        <select id="filterClassificacao" class="form-select" onchange="filterTable()">
+                            <option value="">Todas as Classificações</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="flex justify-between items-center p-4 border-b border-gray-200">
+                    <div class="status" id="statusMessage">
+                        <i class="fas fa-info-circle"></i>
+                        Clique em "Atualizar Dados" para carregar as tendências
+                    </div>
+                    <button class="btn btn-primary" onclick="loadTendencias()" id="btnLoad">
+                        <i class="fas fa-sync-alt" id="loadingIcon"></i>
+                        Atualizar Dados
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Dimensão</th>
+                                <th>Horizonte</th>
+                                <th>Tendência</th>
+                                <th>Motivo</th>
+                                <th>Referência</th>
+                                <th>Classificação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaTendencias">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-gray-500">
+                                    <i class="fas fa-database text-4xl mb-2 opacity-50"></i>
+                                    <p>Nenhum dado carregado. Clique em "Atualizar Dados" para começar.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Configuração do Supabase
+        const SUPABASE_URL = 'https://qwlghfwnfryxedlgipax.supabase.co'; // URL do Supabase fornecida pelo usuário
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3bGdoZnduZnJ5eGVkbGdpcGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NDA4OTUsImV4cCI6MjA3MzUxNjg5NX0.mCaMSiTfUqarSeyi3Y-YajTMJYVuYMpf_j-X52wDP7s'; // Chave anon do Supabase fornecida pelo usuário
+        // Inicialização do cliente Supabase com configurações de CORS
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false,
+                detectSessionInUrl: false
+            },
+            global: {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey',
+                    'apikey': SUPABASE_ANON_KEY
+                }
+            }
+        });
+        
+        console.log('Cliente Supabase inicializado com sucesso!');
+        
+        // Variável para armazenar os dados
+        let tendenciasData = [];
+        
+        // Elementos da interface
+        const btnLoad = document.getElementById('btnLoad');
+        const loadingIcon = document.getElementById('loadingIcon');
+        const statusMessage = document.getElementById('statusMessage');
+        const tabelaTendencias = document.getElementById('tabelaTendencias');
+        
+        // Elementos dos filtros
+        const filterDimensao = document.getElementById('filterDimensao');
+        const filterHorizonte = document.getElementById('filterHorizonte');
+        const filterTendencia = document.getElementById('filterTendencia');
+        const filterMotivo = document.getElementById('filterMotivo');
+        const filterReferencia = document.getElementById('filterReferencia');
+        const filterClassificacao = document.getElementById('filterClassificacao');
+        
+        // Adicionar evento de clique ao botão de carregar
+        btnLoad.addEventListener('click', loadTendencias);
+        
+        // Verificar se o Supabase foi carregado corretamente
+        if (window.supabase) {
+            console.log('Supabase carregado com sucesso!');
+            console.log('URL do Supabase:', SUPABASE_URL);
+            
+            // Testar conexão com o Supabase
+            async function testConnection() {
+                try {
+                    const { data, error } = await supabase
+                        .from('Tendencias')
+                        .select('*')
+                        .limit(1);
+                        
+                    if (error) {
+                        console.warn('Aviso ao testar conexão com Supabase:', error);
+                    } else {
+                        console.log('Conexão com Supabase testada com sucesso!');
+                    }
+                } catch (error) {
+                    console.error('Erro ao testar conexão com Supabase:', error);
+                }
+            }
+            
+            // Executar teste de conexão
+            testConnection();
+        } else {
+            console.error('Erro: Supabase não foi carregado corretamente');
+            updateStatus('Erro: Falha ao carregar o Supabase', 'error');
+        }
+
+        // Carregar dados do Supabase
+        async function loadTendencias() {
+            try {
+                // Mostrar loading
+                btnLoad.disabled = true;
+                loadingIcon.classList.add('fa-spin');
+                updateStatus('Conectando ao banco de dados...', 'info');
+                
+                console.log('=== INÍCIO DO CARREGAMENTO ===');
+                
+                // Lista de possíveis nomes de tabela para tentar
+                const tableNames = [
+                    'Tendencias', 
+                    'tendencias', 
+                    'Tendências', 
+                    'tendências',
+                    'tendencia',
+                    'Tendencia'
+                ];
+                
+                let data = [];
+                let lastError = null;
+                
+                // Tenta cada nome de tabela até encontrar um que funcione
+                for (const tableName of tableNames) {
+                    try {
+                        console.log(`\nTentando acessar a tabela: '${tableName}'...`);
+                        
+                        // Usando o cliente Supabase (Método recomendado)
+                        const { data: tableData, error: tableError } = await supabase
+                            .from(tableName)
+                            .select('*');
+
+                        if (tableError) {
+                            throw tableError;
+                        }
+                        
+                        if (tableData && tableData.length > 0) {
+                            data = tableData;
+                            console.log(`✅ Tabela '${tableName}' encontrada com ${data.length} registros`);
+                            console.log('Primeiros dados:', data.slice(0, 2)); // Log dos primeiros itens para debug
+                            break; // Sai do loop se conseguir acessar a tabela
+                        }
+                    } catch (error) {
+                        console.warn(`❌ Erro ao acessar a tabela '${tableName}':`, error.message);
+                        lastError = error;
+                    }
+                }
+                
+                // Verifica se encontrou dados
+                if (data.length === 0) {
+                    throw lastError || new Error('Nenhuma tabela de tendências encontrada ou a tabela está vazia');
+                }
+                
+                // Atualiza os dados e a interface
+                tendenciasData = Array.isArray(data) ? data : [];
+                console.log(`\n=== DADOS CARREGADOS ===\nTotal de registros: ${tendenciasData.length}`);
+                
+                if (tendenciasData.length > 0) {
+                    console.log('Primeiro registro:', JSON.stringify(tendenciasData[0], null, 2));
+                    updateStatus(`Carregadas ${tendenciasData.length} tendências`, 'success');
+                    updateFilters(tendenciasData);
+                    renderTable(tendenciasData);
+                } else {
+                    console.warn('Nenhum dado encontrado em nenhuma das tabelas tentadas');
+                    updateStatus('Nenhum dado encontrado nas tabelas', 'warning');
+                    renderTable([]);
+                }
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                const errorMessage = error.message || 'Erro desconhecido';
+                updateStatus(`Erro ao carregar dados: ${errorMessage}`, 'error');
+                
+                // Tenta listar as tabelas disponíveis para depuração
+                try {
+                    console.log('Tentando listar tabelas disponíveis...');
+                    
+                    // Método 1: Usando SQL direto (requer permissão RLS configurada corretamente)
+                    try {
+                        const { data: tablesData, error: tablesError } = await supabase
+                            .rpc('get_tables')
+                            .select('*');
+                            
+                        if (!tablesError && tablesData) {
+                            console.log('Tabelas disponíveis (método RPC):', tablesData);
+                        } else {
+                            console.warn('Erro ao listar tabelas via RPC:', tablesError);
+                            
+                            // Método 2: Tentando consultar a tabela information_schema
+                            try {
+                                const { data: infoSchema, error: schemaError } = await supabase
+                                    .from('information_schema.tables')
+                                    .select('table_name')
+                                    .eq('table_schema', 'public');
+                                    
+                                if (!schemaError && infoSchema) {
+                                    console.log('Tabelas disponíveis (information_schema):', infoSchema.map(t => t.table_name));
+                                } else {
+                                    console.warn('Erro ao consultar information_schema:', schemaError);
+                                }
+                            } catch (e) {
+                                console.warn('Falha ao consultar information_schema:', e);
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Falha ao listar tabelas via RPC:', e);
+                    }
+                    
+                    // Método 3: Tenta descobrir tabelas tentando acessá-las
+                    console.log('Tentando descobrir tabelas tentando acessá-las...');
+                    const possibleTables = [
+                        'tendencias', 'tendencia', 'tendências', 'tendência',
+                        'tendencia_consulta', 'tendencias_consulta', 'tendência_consulta', 'tendências_consulta',
+                        'dados', 'dados_tendencias', 'dados_tendencia', 'dados_tendências', 'dados_tendência'
+                    ];
+                    
+                    const foundTables = [];
+                    
+                    for (const table of possibleTables) {
+                        try {
+                            const { error } = await supabase
+                                .from(table)
+                                .select('*')
+                                .limit(1);
+                                
+                            if (!error) {
+                                foundTables.push(`${table} (acesso bem-sucedido)`);
+                            } else if (error.code === '42P01') {
+                                // Tabela não existe, ignora
+                            } else {
+                                foundTables.push(`${table} (erro: ${error.message})`);
+                            }
+                        } catch (e) {
+                            // Ignora erros
+                        }
+                    }
+                    
+                    if (foundTables.length > 0) {
+                        console.log('Possíveis tabelas encontradas:', foundTables);
+                    } else {
+                        console.log('Nenhuma tabela identificada automaticamente');
+                    }
+                    
+                } catch (e) {
+                    console.error('Falha ao tentar descobrir tabelas:', e);
+                }
+            } finally {
+                btnLoad.disabled = false;
+                loadingIcon.classList.remove('fa-spin');
+            }
+        }
+        
+        // Atualizar mensagem de status
+        function updateStatus(message, type = 'info') {
+            statusMessage.innerHTML = `<i class="fas fa-${getStatusIcon(type)}"></i> ${message}`;
+            statusMessage.className = `status ${type}`;
+        }
+        
+        function getStatusIcon(type) {
+            const icons = {
+                'info': 'info-circle',
+                'success': 'check-circle',
+                'error': 'exclamation-circle',
+                'loading': 'spinner fa-spin'
+            };
+            return icons[type] || 'info-circle';
+        }
+        
+        // Atualizar opções dos filtros
+        function updateFilters(data) {
+            updateSelectOptions('dimensao', data, 'dimensao');
+            updateSelectOptions('horizonte', data, 'horizonte');
+            updateSelectOptions('tendencia', data, 'tendencia');
+            updateSelectOptions('motivo', data, 'motivo');
+            updateSelectOptions('referencia', data, 'referencia');
+            updateSelectOptions('classificacao', data, 'classificacao');
+        }
+        
+        function updateSelectOptions(filterId, data, field) {
+            const select = document.getElementById(`filter${filterId.charAt(0).toUpperCase() + filterId.slice(1)}`);
+            if (!select) return;
+            
+            // Manter o valor atual
+            const currentValue = select.value;
+            
+            // Limpar opções exceto a primeira
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // Obter valores únicos
+            const uniqueValues = [...new Set(data.map(item => item[field]))].filter(Boolean);
+            
+            // Adicionar opções
+            uniqueValues.forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value || '(Não definido)';
+                select.appendChild(option);
+            });
+            
+            // Restaurar o valor anterior se ainda existir
+            if (currentValue && [...select.options].some(opt => opt.value === currentValue)) {
+                select.value = currentValue;
+            }
+        }
+        
+        // Renderizar tabela
+        function renderTable(data) {
+            if (!data || data.length === 0) {
+                tabelaTendencias.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-gray-500">
+                            <i class="fas fa-search text-4xl mb-2 opacity-50"></i>
+                            <p>Nenhuma tendência encontrada com os filtros atuais.</p>
+                        </td>
+                    </tr>`;
+                return;
+            }
+            
+            const rows = data.map(item => `
+                <tr>
+                    <td>${escapeHtml(item.dimensao || '')}</td>
+                    <td>${escapeHtml(item.horizonte || '')}</td>
+                    <td>${escapeHtml(item.tendencia || '')}</td>
+                    <td>${escapeHtml(item.motivo || '')}</td>
+                    <td>${escapeHtml(item.referencia || '')}</td>
+                    <td>${formatClassificacao(item.classificacao)}</td>
+                </tr>
+            `).join('');
+            
+            tabelaTendencias.innerHTML = rows;
+        }
+        
+        // Formatar classificação
+        function formatClassificacao(value) {
+            if (!value) return '<span class="text-gray-400">-</span>';
+            return `<span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                ${escapeHtml(value)}
+            </span>`;
+        }
+        
+        // Filtrar tabela
+        function filterTable() {
+            const filters = {
+                dimensao: filterDimensao.value,
+                horizonte: filterHorizonte.value,
+                tendencia: filterTendencia.value,
+                motivo: filterMotivo.value,
+                referencia: filterReferencia.value,
+                classificacao: filterClassificacao.value
+            };
+            
+            const filteredData = tendenciasData.filter(item => {
+                return Object.entries(filters).every(([key, value]) => {
+                    if (!value) return true;
+                    return String(item[key]).toLowerCase().includes(value.toLowerCase());
+                });
+            });
+            
+            renderTable(filteredData);
+            updateStatus(`Mostrando ${filteredData.length} de ${tendenciasData.length} tendências`, 'info');
+        }
+        
+        // Limpar todos os filtros
+        function clearFilters() {
+            filterDimensao.value = '';
+            filterHorizonte.value = '';
+            filterTendencia.value = '';
+            filterMotivo.value = '';
+            filterReferencia.value = '';
+            filterClassificacao.value = '';
+            
+            if (tendenciasData.length > 0) {
+                renderTable(tendenciasData);
+                updateStatus(`Mostrando todas as ${tendenciasData.length} tendências`, 'info');
+            }
+        }
+        
+        // Função auxiliar para escapar HTML
+        function escapeHtml(unsafe) {
+            if (unsafe === null || unsafe === undefined) return '';
+            return unsafe
+                .toString()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar dados ao clicar no botão
+            btnLoad.addEventListener('click', loadTendencias);
+        });
+    </script>
+</body>
+</html>
