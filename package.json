@@ -9,14 +9,11 @@
     "preview": "vite preview --port 8000",
     "clean": "rimraf dist",
     "build:prod": "npm run clean && npm run build",
-    "start": "node server.js",
-    "deploy": "npm run build:prod && npm start"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
+    "serve": "npm run build && http-server dist -p 3000 -o",
+    "start": "http-server dist -p 3000 -o"
   },
   "devDependencies": {
-    "glob": "^10.3.10",
+    "glob": "^10.5.0",
     "rimraf": "^5.0.5",
     "vite": "^5.1.0"
   }
