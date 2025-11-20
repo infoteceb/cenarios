@@ -2,13 +2,10 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Upload de Documentos • Tendências</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-    <meta name="theme-color" content="#8D9B7A">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -47,22 +44,10 @@
         --border: #BFC1B6;
         --primary: #8D9B7A;
         --text: #2A362B;
-        --mobile-padding: 1rem;
       }
-      
-      html, body { 
-        height: 100%;
-        -webkit-text-size-adjust: 100%;
-        -webkit-tap-highlight-color: transparent;
-      }
-      
+      html, body { height: 100%; }
       body {
         font-family: 'Roboto Mono', monospace;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-        overflow-x: hidden;
-      }
         background-color: var(--bg);
         color: var(--text);
       }
@@ -161,9 +146,9 @@
   </style>
 </head>
   <body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
-    <header class="header sticky top-0 z-50" style="background-color: var(--surface); border-bottom: 1px solid var(--border);">
-      <div class="container px-4 md:px-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 py-3">
+    <header class="header" style="background-color: var(--surface); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <div class="flex items-center justify-between gap-4 py-2">
           <div class="brand flex items-center gap-3">
             <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
             <div class="brand-text">
@@ -179,116 +164,78 @@
       </div>
     </header>
 
-    <main class="container px-4 py-6 max-w-4xl mx-auto">
-      <div class="w-full">
-        <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-6">
-          <div class="mb-6 text-center">
-            <h2 class="text-xl font-bold text-primary">Upload de Documentos</h2>
-            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Envie seus arquivos para análise</p>
-          </div>
-          
-          <form id="uploadForm" class="space-y-6 w-full">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-4">
-                <div class="w-full">
-                  <label for="email" class="block text-sm font-medium mb-1">Seu e-mail</label>
-                  <input type="email" id="email" required
-                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
-                    placeholder="seu@email.com">
-                </div>
-              </div>
-
-              <div class="space-y-2">
-                <label for="dimensao" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Dimensão</label>
-                <div class="w-full">
-                  <label for="dimensao" class="block text-sm font-medium mb-1">Dimensão</label>
-                  <select id="dimensao" required
-                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base">
-                    <option value="">Selecione uma dimensão</option>
-                    <option value="militar">Militar</option>
-                    <option value="tecnologica">Tecnológica</option>
-                    <option value="economica">Econômica</option>
-                    <option value="social">Social</option>
-                    <option value="ambiental">Ambiental</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="space-y-2">
-                <label for="horizonte" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Horizonte</label>
-                <div class="w-full">
-                  <label for="horizonte" class="block text-sm font-medium mb-1">Horizonte</label>
-                  <select id="horizonte" required
-                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base">
-                    <option value="">Selecione um horizonte</option>
-                    <option value="2030">2030</option>
-                    <option value="2040">2040</option>
-                    <option value="2050">2050</option>
-                  </select>
-                </div>
-              </div>
+    <main class="container py-8 px-4">
+      <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-6">
+        <div class="mb-6 text-center">
+          <h2 class="text-xl font-bold text-primary">Upload de Documentos</h2>
+          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Envie seus arquivos para análise</p>
+        </div>
+        
+        <form id="uploadForm" class="space-y-6 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="email" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
             </div>
 
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Arquivos</label>
-              <div id="fileDrop" class="border-2 border-dashed rounded-xl p-6 md:p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
-                <div class="space-y-3">
-                  <span class="material-symbols-outlined text-4xl text-gray-400">upload_file</span>
-                  <p class="text-sm md:text-base text-gray-600">Arraste e solte seus arquivos aqui ou <span class="text-primary font-medium">clique para selecionar</span></p>
-                  <p class="text-xs text-gray-500">Formatos suportados: PDF, DOCX, TXT (até 10MB)</p>
-                </div>
-                <input type="file" id="fileInput" class="hidden" multiple>
+              <label for="dimensao" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Dimensão</label>
+            <select id="dimensao" name="dimensao" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="" disabled selected>Selecione a dimensão</option>
+              <option value="Tecnológica">Tecnológica</option>
+              <option value="Social">Social</option>
+              <option value="Política">Política</option>
+              <option value="Militar">Militar</option>
+            </select>
+            </div>
+
+            <div class="space-y-2">
+              <label for="horizonte" class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Horizonte</label>
+            <select id="horizonte" name="horizonte" required
+                    class="w-full px-4 py-2 border border-border-light dark:border-border-dark rounded-lg bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="" disabled selected>Selecione o horizonte</option>
+              <option value="2030">2030</option>
+              <option value="2040">2040</option>
+              <option value="2050">2050</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Arquivos</label>
+            <div id="fileDrop" class="border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-8 text-center cursor-pointer hover:bg-surface-light/50 dark:hover:bg-surface-dark/50 transition-colors">
+              <div class="flex flex-col items-center justify-center space-y-2">
+                <span class="material-symbols-outlined text-4xl text-primary">upload_file</span>
+                <p class="font-medium">Arraste os arquivos aqui</p>
+                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">ou clique para selecionar</p>
               </div>
             </div>
+            <input type="file" id="fileInput" name="files" class="hidden" multiple>
+          </div>
 
-            <div id="fileList" class="space-y-3"></div>
+          <div id="fileList" class="space-y-2"></div>
 
-            <div class="pt-2">
-              <button type="submit"
-                class="w-full bg-primary text-white py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-base font-medium">
-                <span class="material-symbols-outlined text-xl">cloud_upload</span>
-                Enviar Documentos
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+          <div class="flex justify-end pt-6 border-t border-border-light dark:border-border-dark">
+            <button type="submit" class="px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors flex items-center gap-2">
+              <span class="material-symbols-outlined text-base">upload</span>
+              Enviar Documentos
+            </button>
+          </div>
+      </form>
     </main>
 
     <script>
-      // Touch device detection
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-      
       const fileDrop = document.getElementById('fileDrop');
       const fileInput = document.getElementById('fileInput');
       const fileListDisplay = document.getElementById('fileList');
       let selectedFiles = [];
-      
-      // Add touch feedback for mobile devices
-      if (isTouchDevice) {
-        fileDrop.style.webkitTapHighlightColor = 'transparent';
-        fileDrop.style.cursor = 'pointer';
-      }
 
-      // Improved touch/click handling for better mobile experience
-      fileDrop.addEventListener('click', (e) => {
-        if (!e.target.closest('.file-remove')) {
-          fileInput.click();
-        }
-      });
-      // Only add drag and drop for non-touch devices
-      if (!isTouchDevice) {
-        fileDrop.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          fileDrop.classList.add('border-primary', 'bg-gray-50');
-        });
-        fileDrop.addEventListener('drop', (e) => {
-          e.preventDefault();
-          fileDrop.classList.remove('border-primary', 'bg-gray-50');
-          const files = e.dataTransfer.files;
-          handleFiles(files);
-        });
-      }
+      fileDrop.addEventListener('click', () => fileInput.click());
+      fileDrop.addEventListener('dragover', (e) => { e.preventDefault(); fileDrop.classList.add('dragover'); });
+      fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
+      fileDrop.addEventListener('drop', (e) => { e.preventDefault(); fileDrop.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
       fileInput.addEventListener('change', () => { handleFiles(fileInput.files); });
 
       function handleFiles(files) {
@@ -298,117 +245,71 @@
 
       function updateFileList() {
         fileListDisplay.innerHTML = '';
-        
-        if (selectedFiles.length === 0) return;
-        
-        const list = document.createElement('div');
-        list.className = 'space-y-3';
-        
         selectedFiles.forEach((file, index) => {
           const fileItem = document.createElement('div');
-          fileItem.className = 'flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200';
+          fileItem.className = 'file-item' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
           
           const fileInfo = document.createElement('div');
-          fileInfo.className = 'flex items-center gap-3 overflow-hidden';
+          fileInfo.className = 'flex items-center gap-2';
           
-          const icon = document.createElement('span');
-          icon.className = 'material-symbols-outlined text-gray-500 flex-shrink-0';
-          icon.textContent = 'description';
+          const fileIcon = document.createElement('span');
+          fileIcon.className = 'material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark';
+          fileIcon.textContent = 'description';
           
-          const fileDetails = document.createElement('div');
-          fileDetails.className = 'min-w-0';
-          
-          const fileName = document.createElement('div');
-          fileName.className = 'text-sm font-medium truncate';
+          const fileName = document.createElement('span');
+          fileName.className = 'text-sm text-text-primary-light dark:text-text-primary-dark';
           fileName.textContent = file.name;
           
-          const fileSize = document.createElement('div');
-          fileSize.className = 'text-xs text-gray-500';
-          fileSize.textContent = formatFileSize(file.size);
+          const fileSize = document.createElement('span');
+          fileSize.className = 'text-xs text-text-secondary-light dark:text-text-secondary-dark';
+          fileSize.textContent = `(${(file.size / 1024).toFixed(1)} KB)`;
           
           const removeBtn = document.createElement('button');
-          removeBtn.className = 'file-remove text-red-500 hover:text-red-700 text-xl font-bold';
-          removeBtn.style.padding = '0.25rem';
-          removeBtn.style.margin = '-0.25rem';
-          removeBtn.style.lineHeight = '1';
-          removeBtn.innerHTML = '&times;';
-          removeBtn.setAttribute('aria-label', 'Remover arquivo');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.title = 'Remover';
           removeBtn.onclick = (e) => {
             e.stopPropagation();
             selectedFiles.splice(index, 1);
             updateFileList();
           };
           
-          fileDetails.appendChild(fileName);
-          fileDetails.appendChild(fileSize);
-          fileInfo.appendChild(icon);
-          fileInfo.appendChild(fileDetails);
+          fileInfo.appendChild(fileIcon);
+          fileInfo.appendChild(document.createElement('div')).className = 'flex flex-col';
+          fileInfo.lastChild.appendChild(fileName);
+          fileInfo.lastChild.appendChild(fileSize);
           
           fileItem.appendChild(fileInfo);
           fileItem.appendChild(removeBtn);
-          
-          list.appendChild(fileItem);
+          fileListDisplay.appendChild(fileItem);
         });
-        
-        fileListDisplay.appendChild(list);
-      }
-
-      function formatFileSize(size) {
-        if (size < 1024) return `${size} bytes`;
-        if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
-        if (size < 1024 * 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(1)} MB`;
-        return `${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`;
       }
 
       document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.innerHTML;
-        
-        try {
-          // Disable button and show loading state
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = `
-            <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Enviando...
-          `;
-          
-          const email = document.getElementById('email').value;
-          const dimensao = document.getElementById('dimensao').value;
-          const horizonte = document.getElementById('horizonte').value;
-          if (!email || !dimensao || !horizonte || selectedFiles.length === 0) {
-            alert('Por favor, preencha todos os campos e selecione ao menos um arquivo.');
-            return;
-          }
-          const formData = new FormData();
-          formData.append('email', email);
-          formData.append('dimensao', dimensao);
-          formData.append('horizonte', horizonte);
-          selectedFiles.forEach((file) => formData.append('files[]', file));
-
-          try {
-            // Simular envio
-            console.log('Enviando arquivos...', { email, dimensao, files: selectedFiles });
-            
-            // Simular atraso de rede
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Simular sucesso
-            alert('Arquivos enviados com sucesso!');
-            document.getElementById('uploadForm').reset();
-            selectedFiles = [];
-            updateFileList();
-            
-            // Rolar para o topo para ver a mensagem de sucesso
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } catch (err) { alert('Erro de conexão:\n' + err.message); }
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
+        const email = document.getElementById('email').value;
+        const dimensao = document.getElementById('dimensao').value;
+        const horizonte = document.getElementById('horizonte').value;
+        if (!email || !dimensao || !horizonte || selectedFiles.length === 0) {
+          alert('Por favor, preencha todos os campos e selecione ao menos um arquivo.');
+          return;
         }
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('dimensao', dimensao);
+        formData.append('horizonte', horizonte);
+        selectedFiles.forEach((file) => formData.append('files[]', file));
+
+        try {
+          const response = await fetch('http://10.4.235.2:5688/webhook-test/in', { method: 'POST', body: formData });
+          const result = await response.text();
+          if (response.ok) {
+            alert('Arquivos enviados com sucesso!');
+            selectedFiles = []; updateFileList(); document.getElementById('uploadForm').reset();
+          } else {
+            alert('Erro no envio: ' + response.status + '\n' + result);
+          }
+        } catch (err) { alert('Erro de conexão:\n' + err.message); }
       });
     </script>
   </body>
