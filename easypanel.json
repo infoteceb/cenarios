@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/easypanel-io/easypanel/master/schema.json",
+  "name": "dash-cenarios",
+  "type": "app",
+  "build": {
+    "builder": "node",
+    "buildCommand": "npm install && npm run build",
+    "outputDirectory": "dist",
+    "startCommand": "npm start"
+  },
+  "http": {
+    "internalPort": 3000,
+    "path": "/"
+  },
+  "resources": {
+    "memory": 512,
+    "cpu": 0.5
+  },
+  "env": [
+    {
+      "name": "NODE_ENV",
+      "value": "production"
+    },
+    {
+      "name": "PORT",
+      "value": "3000"
+    }
+  ]
+}

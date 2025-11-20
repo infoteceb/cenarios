@@ -2,14 +2,12 @@ import { defineConfig } from "vite";
 import { resolve } from 'path';
 import { glob } from 'glob';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 
-// Read Supabase config from config.js
-const configContent = fs.readFileSync('config.js', 'utf-8');
-const supabaseUrl = configContent.match(/SUPABASE_URL:\s*"([^"]+)"/)[1];
-const supabaseKey = configContent.match(/SUPABASE_ANON_KEY:\s*"([^"]+)"/)[1];
+// Configurações do Supabase (serão injetadas via variáveis de ambiente no Easypanel)
+const supabaseUrl = process.env.SUPABASE_URL || 'https://qwlghfwnfryxedlgipax.supabase.co';
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3bGdoZnduZnJ5eGVkbGdpcGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NDA4OTUsImV4cCI6MjA3MzUxNjg5NX0.mCaMSiTfUqarSeyi3Y-YajTMJYVuYMpf_j-X52wDP7s';
 
-// Create a simple plugin to inject the config
+// Plugin para injetar as configurações
 const injectConfig = {
   name: 'inject-config',
   transformIndexHtml(html) {
@@ -27,7 +25,6 @@ const injectConfig = {
 };
 
 export default defineConfig({
-  root: __dirname,
   base: './',
   publicDir: 'public',
   plugins: [injectConfig],
@@ -49,11 +46,13 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8000,
+    port: 3000,
+    host: true,
     open: true,
   },
   preview: {
-    port: 8000,
+    port: 3000,
+    host: true,
     open: true,
   },
 });
