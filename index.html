@@ -40,16 +40,20 @@
   </head>
   <body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
     <header class="header mb-8" style="background-color: var(--surface); border-bottom: 1px solid var(--border);">
-      <div class="container">
-        <div class="flex items-center justify-between py-2">
+      <div class="container px-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between py-3 gap-4">
           <div class="brand flex items-center gap-3">
-            <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
+            <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm flex-shrink-0">SM</div>
             <div class="brand-text">
               <h1 class="text-lg font-bold">Dashboard de Cenários</h1>
               <p class="text-xs text-text-secondary-light">MPTEx - Metodologia de Planejamento Tecnológico do Exército</p>
             </div>
           </div>
-          <div class="filters flex flex-wrap items-center gap-2 sm:gap-3">
+          <div class="filters flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto">
+            <!-- Mobile menu button (hidden on larger screens) -->
+            <button type="button" class="md:hidden flex items-center justify-center w-10 h-10 -mr-2 text-text-secondary-light hover:text-text-primary-light" aria-label="Toggle menu">
+              <span class="material-symbols-outlined">menu</span>
+            </button>
             <div class="filter">
               <label for="userId" class="sr-only">user_id</label>
               <select id="userId" disabled class="w-40 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm rounded-md shadow-sm focus:ring-primary focus:border-primary">
@@ -62,15 +66,21 @@
                 <option value="" selected disabled>Selecione um planejamento</option>
               </select>
             </div>
-            <button id="loadBtn" class="btn-primary bg-primary text-text-on-primary px-4 py-2 rounded-md font-semibold text-sm hover:bg-opacity-90 transition-colors">Carregar</button>
-            <a href="tendencias_upload.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light" title="Enviar tendências">Enviar tendências</a>
-            <a href="tendencias_consulta.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center gap-1" title="Consultar tendências">
+            <button id="loadBtn" class="btn-primary bg-primary text-text-on-primary px-4 py-2 rounded-md font-semibold text-sm hover:bg-opacity-90 transition-colors flex-1 md:flex-none">
+              <span class="hidden sm:inline">Carregar</span>
+              <span class="material-symbols-outlined sm:hidden">refresh</span>
+            </button>
+            <a href="tendencias_upload.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-1 flex-1 md:flex-none" title="Enviar tendências">
+              <span class="material-symbols-outlined text-base">upload</span>
+              <span>Enviar</span>
+            </a>
+            <a href="tendencias_consulta.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-1 flex-1 md:flex-none" title="Consultar tendências">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
               Consultar
             </a>
-            <a href="gerar_cenarios.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center gap-1" title="Gerar cenários">
+            <a href="gerar_cenarios.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-1 flex-1 md:flex-none" title="Gerar cenários">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
