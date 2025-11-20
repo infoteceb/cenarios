@@ -1,5 +1,8 @@
 * { box-sizing: border-box; }
 :root {
+  --mobile-padding: 16px;
+}
+:root {
   --bg: #0b1220;
   --surface: #0f182b;
   --surface-2: #121d34;
@@ -31,7 +34,7 @@ body {
   backdrop-filter: blur(10px);
   background: linear-gradient(180deg, rgba(10,17,32,.8), rgba(10,17,32,.5));
   border-bottom: 1px solid var(--border);
-  padding: 16px 24px;
+  padding: 12px var(--mobile-padding);
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 16px;
@@ -46,7 +49,13 @@ body {
 .brand-text h1 { margin: 0; font-size: 18px; letter-spacing: .3px; }
 .brand-text p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
 
-.filters { display: flex; align-items: end; gap: 12px; }
+.filters { 
+  display: flex; 
+  flex-wrap: wrap;
+  align-items: end; 
+  gap: 12px; 
+  margin-top: 12px;
+}
 .filter { display: grid; gap: 6px; }
 .filter label { font-size: 12px; color: var(--muted); }
 .filter input {
@@ -72,7 +81,13 @@ body {
 }
 .btn-primary:hover { filter: brightness(1.05); }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0.5rem 0; display: grid; gap: 20px; }
+.container { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 0.5rem var(--mobile-padding); 
+  display: grid; 
+  gap: 20px; 
+}
 .panel {
   background: linear-gradient(180deg, rgba(22,38,71,.65), rgba(15,24,43,.65));
   border: 1px solid var(--border);
@@ -84,13 +99,23 @@ body {
 .panel-header h2 { margin: 0; font-size: 18px; }
 .panel-subtitle { color: var(--muted); font-size: 12px; }
 
-.matrix-2x2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px; }
+.matrix-2x2 { 
+  display: grid; 
+  grid-template-columns: repeat(2, minmax(0, 1fr)); 
+  gap: 12px; 
+  padding: 12px;
+}
 .cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
 .cell h3 { margin: 0 0 8px; color: var(--primary); font-size: 14px; letter-spacing: .4px; }
 .cell .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .cell .list li { padding: 8px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); }
 
-.cards { display: grid; grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) ); gap: 12px; padding: 16px; }
+.cards { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+  gap: 12px; 
+  padding: 12px;
+}
 .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
 .card h4 { margin: 0 0 6px; font-size: 14px; color: var(--primary); }
 .card p { margin: 4px 0; color: var(--muted); font-size: 13px; }
@@ -116,6 +141,79 @@ body {
 .debug-wrap { max-width: 1200px; margin: 8px auto 0; padding: 0 16px; display: grid; gap: 6px; }
 .debug-toggle { color: var(--muted); font-size: 12px; }
 .debug-bar { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; white-space: pre-wrap; }
+
+/* ==================== Media Queries ==================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0.5rem var(--mobile-padding);
+  }
+  
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .panel-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    grid-template-columns: 1fr;
+    padding: 12px var(--mobile-padding);
+  }
+  
+  .brand {
+    margin-bottom: 8px;
+  }
+  
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter {
+    width: 100%;
+  }
+  
+  .matrix-2x2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --mobile-padding: 12px;
+  }
+  
+  .container {
+    padding: 0.5rem var(--mobile-padding);
+  }
+  
+  .panel {
+    border-radius: 12px;
+  }
+  
+  .cell {
+    padding: 10px;
+  }
+  
+  .cell .list li {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
 
 /* ---------------- Light Military Palette Overrides ---------------- */
 :root {
