@@ -155,9 +155,7 @@ body {
   }
   
   .filter select, 
-  .filter input,
-  .btn-primary,
-  .filters a {
+  .filter input {
     font-size: 0.7rem;
     padding: 0.25rem 0.5rem;
     height: 1.8rem;

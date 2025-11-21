@@ -4,12 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MPTEX</title>
+
     <link rel="stylesheet" href="styles.css" />
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -37,71 +42,111 @@
         }
       };
     </script>
+
   </head>
+
   <body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
-    <header class="header mb-8" style="background-color: var(--surface); border-bottom: 1px solid var(--border);">
-      <div class="container px-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between py-3 gap-4">
-          <div class="brand flex items-center gap-3">
-            <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm flex-shrink-0">SM</div>
-            <div class="brand-text">
-              <h1 class="text-lg font-bold">MPTEX</h1>
-              <p class="text-xs text-text-secondary-light">Metodologia de Planejamento Tecnológico do Exército</p>
-            </div>
+
+    <!-- ===================================================================== -->
+    <!-- HEADER ALINHADO + EM UMA ÚNICA LINHA                                   -->
+    <!-- ===================================================================== -->
+    <header class="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
+      <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+
+        <!-- LOGO + TEXTOS -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <div class="flex items-center justify-center w-10 h-10 rounded-md bg-primary text-white font-bold text-sm">
+            SM
           </div>
-          <div class="filters w-full">
-            <div class="flex flex-col md:flex-row md:items-center gap-2 sm:gap-3 w-full">
-            <div class="filter w-full">
-              <label for="userId" class="block text-xs mb-1 text-text-secondary-light md:sr-only">Usuário</label>
-              <select id="userId" disabled class="w-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm rounded-md shadow-sm focus:ring-primary focus:border-primary py-2 px-3">
-                <option value="" selected disabled>Selecione um usuário</option>
-              </select>
-            </div>
-            <div class="filter w-full">
-              <label for="cenarioId" class="block text-xs mb-1 text-text-secondary-light md:sr-only">Planejamento</label>
-              <select id="cenarioId" disabled class="w-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm rounded-md shadow-sm focus:ring-primary focus:border-primary py-2 px-3">
-                <option value="" selected disabled>Selecione um planejamento</option>
-              </select>
-            </div>
-            <button id="loadBtn" class="w-full bg-primary text-text-on-primary px-4 py-2 rounded-md font-semibold text-sm hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-base">refresh</span>
-              <span>Carregar</span>
-            </button>
-            <a href="tendencias_upload.html" class="w-full text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-2" title="Enviar tendências">
-              <span class="material-symbols-outlined text-base">upload</span>
-              <span>Enviar</span>
-            </a>
-            <a href="tendencias_consulta.html" class="w-full text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-2" title="Consultar tendências">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              Consultar
-            </a>
-            <a href="gerar_cenarios.html" class="w-full text-sm font-semibold border border-border-light rounded-md px-3 py-2 bg-white hover:bg-surface-light flex items-center justify-center gap-2" title="Gerar cenários">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="12" y1="18" x2="12" y2="12"></line>
-                <line x1="9" y1="15" x2="15" y2="15"></line>
-              </svg>
-              Gerar Cenários
-            </a>
-            </div>
+
+          <div class="leading-tight">
+            <h1 class="text-base font-bold whitespace-nowrap">MPTEX</h1>
+            <p class="text-xs text-text-secondary-light whitespace-nowrap">
+              Metodologia de Planejamento Tecnológico do Exército
+            </p>
           </div>
         </div>
+
+        <!-- SELECTS NO HEADER -->
+        <div class="flex items-center gap-2">
+          <select id="userId" disabled
+            class="h-10 min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+            <option selected>Selecione um usuário</option>
+          </select>
+
+          <select id="cenarioId" disabled
+            class="h-10 min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+            <option selected>Selecione um planejamento</option>
+          </select>
+        </div>
+
       </div>
     </header>
-    <div class="debug-wrap container">
+
+    <!-- ===================================================================== -->
+    <!-- BOTÕES ABAIXO DO HEADER, À DIREITA                                    -->
+    <!-- ===================================================================== -->
+    <div class="max-w-7xl mx-auto px-4 mt-4">
+      <div class="flex justify-end gap-3">
+
+        <button id="loadBtn"
+          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+                 bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+          <span class="material-symbols-outlined text-base">refresh</span>
+          Carregar
+        </button>
+
+        <a href="tendencias_upload.html"
+          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+                 bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+          <span class="material-symbols-outlined text-base">upload</span>
+          Enviar
+        </a>
+
+        <a href="tendencias_consulta.html"
+          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+                 bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Consultar
+        </a>
+
+        <a href="gerar_cenarios.html"
+          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+                 bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="12" y1="18" x2="12" y2="12"></line>
+            <line x1="9" y1="15" x2="15" y2="15"></line>
+          </svg>
+          Gerar Cenários
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- DEBUG BAR                                                              -->
+    <!-- ===================================================================== -->
+    <div class="debug-wrap max-w-7xl mx-auto px-4 mt-4">
       <label class="debug-toggle"><input type="checkbox" id="debugToggle"> Mostrar debug</label>
       <div id="debugBar" class="debug-bar" hidden></div>
     </div>
 
-    <main class="container">
+    <!-- ===================================================================== -->
+    <!-- MAIN CONTENT                                                           -->
+    <!-- ===================================================================== -->
+    <main class="max-w-7xl mx-auto px-4 mt-6">
+
+      <!-- MATRIZ DE INCERTEZAS -->
       <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="matriz-incertezas">
         <div class="panel-header flex items-center justify-between mb-4">
           <h2 class="text-lg font-bold">Matriz de Incertezas</h2>
-          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">2 x 2</span>
+          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">2 × 2</span>
         </div>
+
         <div class="matrix-2x2 grid grid-cols-1 md:grid-cols-2 gap-6" id="matrizGrid">
           <div class="cell" data-quadrante="Q1"><h3>Q1</h3><ul class="list"></ul></div>
           <div class="cell" data-quadrante="Q2"><h3>Q2</h3><ul class="list"></ul></div>
@@ -110,19 +155,23 @@
         </div>
       </section>
 
+      <!-- ENREDO -->
       <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="enredo">
         <div class="panel-header flex items-center justify-between mb-4">
           <h2 class="text-lg font-bold">Enredo</h2>
           <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">Narrativa do Planejamento</span>
         </div>
+
         <div class="cards" id="enredoList"></div>
       </section>
 
+      <!-- CENÁRIOS -->
       <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="cenarios">
         <div class="panel-header flex items-center justify-between mb-4">
           <h2 class="text-lg font-bold">Cenários</h2>
-          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">Matriz 2 x 2</span>
+          <span class="panel-subtitle text-xs text-text-secondary-light dark:text-text-secondary-dark px-2 py-1 bg-surface-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded">Matriz 2 × 2</span>
         </div>
+
         <div class="matrix-2x2 grid grid-cols-1 md:grid-cols-2 gap-6" id="cenariosGrid">
           <div class="cell"><h3>Cenário 1</h3><div class="scenario"></div></div>
           <div class="cell"><h3>Cenário 2</h3><div class="scenario"></div></div>
@@ -131,18 +180,23 @@
         </div>
       </section>
 
+      <!-- AMEAÇAS -->
       <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-8" id="ameacas">
         <div class="panel-header flex items-center justify-between mb-4">
           <h2 class="text-lg font-bold">Ameaças</h2>
         </div>
+
         <ul class="bulleted" id="ameacasList"></ul>
       </section>
 
+      <!-- SISTEMAS FUTUROS + ATUAIS -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
         <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4" id="smem-futuro">
           <div class="panel-header flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold">Sistemas Militares Futuros</h2>
           </div>
+
           <ul class="bulleted" id="smemFutList"></ul>
         </section>
 
@@ -150,25 +204,31 @@
           <div class="panel-header flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold">Evolução de Sistemas Militares Atuais</h2>
           </div>
+
           <ul class="bulleted" id="smemCorrenteList"></ul>
         </section>
+
       </div>
 
-      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mb-4" id="tecnologias">
+      <!-- TECNOLOGIAS -->
+      <section class="panel bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg p-4 mt-8 mb-4" id="tecnologias">
         <div class="panel-header flex items-center justify-between mb-4">
           <h2 class="text-lg font-bold">Tecnologias</h2>
         </div>
-        <div class="cards grid grid-cols-1 sm:grid-cols-2 gap-4" id="tecnologiasList" style="min-height: 0;"></div>
+
+        <div class="cards grid grid-cols-1 sm:grid-cols-2 gap-4" id="tecnologiasList"></div>
       </section>
 
     </main>
 
-    <footer class="app-footer">
+    <!-- FOOTER -->
+    <footer class="app-footer text-center py-6 opacity-70">
       <span>Feito para estudos de planejamento • Tema: Moderno Militar • Autoria: TC Ricardo Wagner</span>
     </footer>
 
     <script type="module" src="https://esm.sh/@supabase/supabase-js@2.45.4"></script>
     <script src="config.js"></script>
     <script type="module" src="app.js"></script>
+
   </body>
 </html>

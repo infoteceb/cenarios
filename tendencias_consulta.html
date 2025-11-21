@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,32 +11,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
     <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              'background-light': '#E8EAE3',
-              'background-dark': '#1C251D',
-              'surface-light': '#DADBCE',
-              'surface-dark': '#2A362B',
-              'border-light': '#BFC1B6',
-              'border-dark': '#404F42',
-              'primary': '#8D9B7A',
-              'text-primary-light': '#2A362B',
-              'text-primary-dark': '#E8EAE3',
-              'text-secondary-light': '#526253',
-              'text-secondary-dark': '#A9B4A0',
-              'text-on-primary': '#FFFFFF'
-            },
-            fontFamily: {
-              display: ['Roboto Mono', 'monospace']
-            },
-            borderRadius: { DEFAULT: '0.5rem' }
-          }
-        }
-      };
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'background-light': '#E8EAE3',
+                        'background-dark': '#1C251D',
+                        'surface-light': '#DADBCE',
+                        'surface-dark': '#2A362B',
+                        'border-light': '#BFC1B6',
+                        'border-dark': '#404F42',
+                        'primary': '#8D9B7A',
+                        'text-primary-light': '#2A362B',
+                        'text-primary-dark': '#E8EAE3',
+                        'text-secondary-light': '#526253',
+                        'text-secondary-dark': '#A9B4A0',
+                        'text-on-primary': '#FFFFFF'
+                    },
+                    fontFamily: {
+                        display: ['Roboto Mono', 'monospace']
+                    },
+                    borderRadius: { DEFAULT: '0.5rem' }
+                }
+            }
+        };
     </script>
     <style>
         :root {
@@ -294,22 +296,31 @@
         }
     </style>
 </head>
+
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="flex items-center justify-between gap-4 py-2">
-                <div class="brand flex items-center gap-3">
-                    <div class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">SM</div>
-                    <div class="brand-text">
-                        <h1 class="text-lg font-bold">Dashboard de Cenários</h1>
-                        <p class="text-xs text-text-secondary-light">Consulta de Tendências</p>
-                    </div>
+    <header class="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-4">
+
+            <!-- LOGO + TÍTULO -->
+            <div class="brand flex items-center gap-3 flex-shrink-0">
+                <div
+                    class="brand-mark bg-primary text-text-on-primary rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm">
+                    SM
                 </div>
-                <a href="index.html" class="text-sm font-semibold border border-border-light rounded-md px-3 py-1.5 bg-white hover:bg-surface-light flex items-center gap-1">
-                    <i class="fas fa-arrow-left"></i>
-                    Voltar
-                </a>
+                <div class="brand-text">
+                    <h1 class="text-lg font-bold whitespace-nowrap">MPTEX</h1>
+                    <p class="text-xs text-text-secondary-light whitespace-nowrap">
+                        Consulta de Tendências
+                    </p>
+                </div>
             </div>
+
+            <!-- BOTÃO VOLTAR -->
+            <a href="index.html" class="h-10 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+                   bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+                <span class="material-symbols-outlined text-base">arrow_back</span> Voltar
+            </a>
+
         </div>
     </header>
 
@@ -431,18 +442,18 @@
                 }
             }
         });
-        
+
         console.log('Cliente Supabase inicializado com sucesso!');
-        
+
         // Variável para armazenar os dados
         let tendenciasData = [];
-        
+
         // Elementos da interface
         const btnLoad = document.getElementById('btnLoad');
         const loadingIcon = document.getElementById('loadingIcon');
         const statusMessage = document.getElementById('statusMessage');
         const tabelaTendencias = document.getElementById('tabelaTendencias');
-        
+
         // Elementos dos filtros
         const filterDimensao = document.getElementById('filterDimensao');
         const filterHorizonte = document.getElementById('filterHorizonte');
@@ -450,15 +461,15 @@
         const filterMotivo = document.getElementById('filterMotivo');
         const filterReferencia = document.getElementById('filterReferencia');
         const filterClassificacao = document.getElementById('filterClassificacao');
-        
+
         // Adicionar evento de clique ao botão de carregar
         btnLoad.addEventListener('click', loadTendencias);
-        
+
         // Verificar se o Supabase foi carregado corretamente
         if (window.supabase) {
             console.log('Supabase carregado com sucesso!');
             console.log('URL do Supabase:', SUPABASE_URL);
-            
+
             // Testar conexão com o Supabase
             async function testConnection() {
                 try {
@@ -466,7 +477,7 @@
                         .from('Tendencias')
                         .select('*')
                         .limit(1);
-                        
+
                     if (error) {
                         console.warn('Aviso ao testar conexão com Supabase:', error);
                     } else {
@@ -476,7 +487,7 @@
                     console.error('Erro ao testar conexão com Supabase:', error);
                 }
             }
-            
+
             // Executar teste de conexão
             testConnection();
         } else {
@@ -491,27 +502,27 @@
                 btnLoad.disabled = true;
                 loadingIcon.classList.add('fa-spin');
                 updateStatus('Conectando ao banco de dados...', 'info');
-                
+
                 console.log('=== INÍCIO DO CARREGAMENTO ===');
-                
+
                 // Lista de possíveis nomes de tabela para tentar
                 const tableNames = [
-                    'Tendencias', 
-                    'tendencias', 
-                    'Tendências', 
+                    'Tendencias',
+                    'tendencias',
+                    'Tendências',
                     'tendências',
                     'tendencia',
                     'Tendencia'
                 ];
-                
+
                 let data = [];
                 let lastError = null;
-                
+
                 // Tenta cada nome de tabela até encontrar um que funcione
                 for (const tableName of tableNames) {
                     try {
                         console.log(`\nTentando acessar a tabela: '${tableName}'...`);
-                        
+
                         // Usando o cliente Supabase (Método recomendado)
                         const { data: tableData, error: tableError } = await supabase
                             .from(tableName)
@@ -520,7 +531,7 @@
                         if (tableError) {
                             throw tableError;
                         }
-                        
+
                         if (tableData && tableData.length > 0) {
                             data = tableData;
                             console.log(`✅ Tabela '${tableName}' encontrada com ${data.length} registros`);
@@ -532,16 +543,16 @@
                         lastError = error;
                     }
                 }
-                
+
                 // Verifica se encontrou dados
                 if (data.length === 0) {
                     throw lastError || new Error('Nenhuma tabela de tendências encontrada ou a tabela está vazia');
                 }
-                
+
                 // Atualiza os dados e a interface
                 tendenciasData = Array.isArray(data) ? data : [];
                 console.log(`\n=== DADOS CARREGADOS ===\nTotal de registros: ${tendenciasData.length}`);
-                
+
                 if (tendenciasData.length > 0) {
                     console.log('Primeiro registro:', JSON.stringify(tendenciasData[0], null, 2));
                     updateStatus(`Carregadas ${tendenciasData.length} tendências`, 'success');
@@ -552,34 +563,34 @@
                     updateStatus('Nenhum dado encontrado nas tabelas', 'warning');
                     renderTable([]);
                 }
-                
+
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
                 const errorMessage = error.message || 'Erro desconhecido';
                 updateStatus(`Erro ao carregar dados: ${errorMessage}`, 'error');
-                
+
                 // Tenta listar as tabelas disponíveis para depuração
                 try {
                     console.log('Tentando listar tabelas disponíveis...');
-                    
+
                     // Método 1: Usando SQL direto (requer permissão RLS configurada corretamente)
                     try {
                         const { data: tablesData, error: tablesError } = await supabase
                             .rpc('get_tables')
                             .select('*');
-                            
+
                         if (!tablesError && tablesData) {
                             console.log('Tabelas disponíveis (método RPC):', tablesData);
                         } else {
                             console.warn('Erro ao listar tabelas via RPC:', tablesError);
-                            
+
                             // Método 2: Tentando consultar a tabela information_schema
                             try {
                                 const { data: infoSchema, error: schemaError } = await supabase
                                     .from('information_schema.tables')
                                     .select('table_name')
                                     .eq('table_schema', 'public');
-                                    
+
                                 if (!schemaError && infoSchema) {
                                     console.log('Tabelas disponíveis (information_schema):', infoSchema.map(t => t.table_name));
                                 } else {
@@ -592,7 +603,7 @@
                     } catch (e) {
                         console.warn('Falha ao listar tabelas via RPC:', e);
                     }
-                    
+
                     // Método 3: Tenta descobrir tabelas tentando acessá-las
                     console.log('Tentando descobrir tabelas tentando acessá-las...');
                     const possibleTables = [
@@ -600,16 +611,16 @@
                         'tendencia_consulta', 'tendencias_consulta', 'tendência_consulta', 'tendências_consulta',
                         'dados', 'dados_tendencias', 'dados_tendencia', 'dados_tendências', 'dados_tendência'
                     ];
-                    
+
                     const foundTables = [];
-                    
+
                     for (const table of possibleTables) {
                         try {
                             const { error } = await supabase
                                 .from(table)
                                 .select('*')
                                 .limit(1);
-                                
+
                             if (!error) {
                                 foundTables.push(`${table} (acesso bem-sucedido)`);
                             } else if (error.code === '42P01') {
@@ -621,13 +632,13 @@
                             // Ignora erros
                         }
                     }
-                    
+
                     if (foundTables.length > 0) {
                         console.log('Possíveis tabelas encontradas:', foundTables);
                     } else {
                         console.log('Nenhuma tabela identificada automaticamente');
                     }
-                    
+
                 } catch (e) {
                     console.error('Falha ao tentar descobrir tabelas:', e);
                 }
@@ -636,13 +647,13 @@
                 loadingIcon.classList.remove('fa-spin');
             }
         }
-        
+
         // Atualizar mensagem de status
         function updateStatus(message, type = 'info') {
             statusMessage.innerHTML = `<i class="fas fa-${getStatusIcon(type)}"></i> ${message}`;
             statusMessage.className = `status ${type}`;
         }
-        
+
         function getStatusIcon(type) {
             const icons = {
                 'info': 'info-circle',
@@ -652,7 +663,7 @@
             };
             return icons[type] || 'info-circle';
         }
-        
+
         // Atualizar opções dos filtros
         function updateFilters(data) {
             updateSelectOptions('dimensao', data, 'dimensao');
@@ -662,22 +673,22 @@
             updateSelectOptions('referencia', data, 'referencia');
             updateSelectOptions('classificacao', data, 'classificacao');
         }
-        
+
         function updateSelectOptions(filterId, data, field) {
             const select = document.getElementById(`filter${filterId.charAt(0).toUpperCase() + filterId.slice(1)}`);
             if (!select) return;
-            
+
             // Manter o valor atual
             const currentValue = select.value;
-            
+
             // Limpar opções exceto a primeira
             while (select.options.length > 1) {
                 select.remove(1);
             }
-            
+
             // Obter valores únicos
             const uniqueValues = [...new Set(data.map(item => item[field]))].filter(Boolean);
-            
+
             // Adicionar opções
             uniqueValues.forEach(value => {
                 const option = document.createElement('option');
@@ -685,13 +696,13 @@
                 option.textContent = value || '(Não definido)';
                 select.appendChild(option);
             });
-            
+
             // Restaurar o valor anterior se ainda existir
             if (currentValue && [...select.options].some(opt => opt.value === currentValue)) {
                 select.value = currentValue;
             }
         }
-        
+
         // Renderizar tabela
         function renderTable(data) {
             if (!data || data.length === 0) {
@@ -704,7 +715,7 @@
                     </tr>`;
                 return;
             }
-            
+
             const rows = data.map(item => `
                 <tr>
                     <td>${escapeHtml(item.dimensao || '')}</td>
@@ -715,10 +726,10 @@
                     <td>${formatClassificacao(item.classificacao)}</td>
                 </tr>
             `).join('');
-            
+
             tabelaTendencias.innerHTML = rows;
         }
-        
+
         // Formatar classificação
         function formatClassificacao(value) {
             if (!value) return '<span class="text-gray-400">-</span>';
@@ -726,7 +737,7 @@
                 ${escapeHtml(value)}
             </span>`;
         }
-        
+
         // Filtrar tabela
         function filterTable() {
             const filters = {
@@ -737,18 +748,18 @@
                 referencia: filterReferencia.value,
                 classificacao: filterClassificacao.value
             };
-            
+
             const filteredData = tendenciasData.filter(item => {
                 return Object.entries(filters).every(([key, value]) => {
                     if (!value) return true;
                     return String(item[key]).toLowerCase().includes(value.toLowerCase());
                 });
             });
-            
+
             renderTable(filteredData);
             updateStatus(`Mostrando ${filteredData.length} de ${tendenciasData.length} tendências`, 'info');
         }
-        
+
         // Limpar todos os filtros
         function clearFilters() {
             filterDimensao.value = '';
@@ -757,13 +768,13 @@
             filterMotivo.value = '';
             filterReferencia.value = '';
             filterClassificacao.value = '';
-            
+
             if (tendenciasData.length > 0) {
                 renderTable(tendenciasData);
                 updateStatus(`Mostrando todas as ${tendenciasData.length} tendências`, 'info');
             }
         }
-        
+
         // Função auxiliar para escapar HTML
         function escapeHtml(unsafe) {
             if (unsafe === null || unsafe === undefined) return '';
@@ -775,7 +786,7 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
         }
-        
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             // Carregar dados ao clicar no botão
@@ -783,4 +794,5 @@
         });
     </script>
 </body>
+
 </html>
