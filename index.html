@@ -51,10 +51,10 @@
     <!-- HEADER ALINHADO + EM UMA ÚNICA LINHA                                   -->
     <!-- ===================================================================== -->
     <header class="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-      <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
 
         <!-- LOGO + TEXTOS -->
-        <div class="flex items-center gap-3 flex-shrink-0">
+        <div class="flex items-center gap-3 flex-shrink-0 w-full sm:w-auto">
           <div class="flex items-center justify-center w-10 h-10 rounded-md bg-primary text-white font-bold text-sm">
             SM
           </div>
@@ -68,14 +68,14 @@
         </div>
 
         <!-- SELECTS NO HEADER -->
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
           <select id="userId" disabled
-            class="h-10 min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+            class="h-10 w-full sm:min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
             <option selected>Selecione um usuário</option>
           </select>
 
           <select id="cenarioId" disabled
-            class="h-10 min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+            class="h-10 w-full sm:min-w-[260px] px-3 text-sm rounded-md border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
             <option selected>Selecione um planejamento</option>
           </select>
         </div>
@@ -87,24 +87,24 @@
     <!-- BOTÕES ABAIXO DO HEADER, À DIREITA                                    -->
     <!-- ===================================================================== -->
     <div class="max-w-7xl mx-auto px-4 mt-4">
-      <div class="flex justify-end gap-3">
+      <div class="flex flex-col sm:flex-row justify-end gap-3">
 
         <button id="loadBtn"
-          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+          class="h-10 w-full sm:w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
                  bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
           <span class="material-symbols-outlined text-base">refresh</span>
           Carregar
         </button>
 
         <a href="tendencias_upload.html"
-          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+          class="h-10 w-full sm:w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
                  bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
           <span class="material-symbols-outlined text-base">upload</span>
           Enviar
         </a>
 
         <a href="tendencias_consulta.html"
-          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+          class="h-10 w-full sm:w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
                  bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -113,7 +113,7 @@
         </a>
 
         <a href="gerar_cenarios.html"
-          class="h-10 w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
+          class="h-10 w-full sm:w-40 px-4 text-sm font-semibold border border-border-light dark:border-border-dark rounded-md 
                  bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>

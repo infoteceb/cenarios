@@ -204,6 +204,51 @@
         text-decoration: none; 
         font-weight: 700; 
       }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        form {
+          padding: 20px;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+
+        .file-drop {
+          padding: 20px;
+          font-size: 14px;
+        }
+
+        .file-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        .btn-primary {
+          font-size: 16px;
+          padding: 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        form {
+          padding: 16px;
+        }
+
+        h2 {
+          font-size: 18px;
+        }
+
+        .file-drop {
+          padding: 16px;
+        }
+      }
     </style>
   </head>
 
@@ -213,10 +258,10 @@
     <!-- HEADER com alinhamento idêntico ao da página principal          -->
     <!-- =============================================================== -->
     <header class="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-      <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
 
         <!-- LOGO -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
           <div class="flex items-center justify-center w-10 h-10 rounded-md bg-primary text-white font-bold text-sm">
             SM
           </div>
@@ -229,7 +274,7 @@
 
         <!-- BOTÃO VOLTAR -->
         <a href="index.html"
-           class="h-10 px-4 text-sm font-semibold border border-border-light rounded-md bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
+           class="h-10 w-full sm:w-auto px-4 text-sm font-semibold border border-border-light rounded-md bg-white hover:bg-surface-light flex items-center justify-center gap-1 whitespace-nowrap">
           <span class="material-symbols-outlined text-base">arrow_back</span>
           Voltar
         </a>
