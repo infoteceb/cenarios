@@ -142,6 +142,84 @@ body {
 .debug-toggle { color: var(--muted); font-size: 12px; }
 .debug-bar { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; white-space: pre-wrap; }
 
+/* ==================== Desktop Styles ==================== */
+@media (min-width: 768px) {
+  .filters {
+    gap: 6px;
+    margin-top: 0;
+  }
+  
+  .filter {
+    min-width: 0;
+    margin: 0;
+  }
+  
+  .filter select, 
+  .filter input,
+  .btn-primary,
+  .filters a {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    height: 1.8rem;
+    line-height: 1.3;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .filter select,
+  .filter input {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  .filters a {
+    white-space: nowrap;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .brand-text h1 {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    font-weight: 600;
+  }
+  
+  .brand-text p {
+    font-size: 0.65rem;
+    margin-top: 0.05rem;
+    opacity: 0.8;
+  }
+  
+  .brand {
+    gap: 8px;
+  }
+  
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+    border-radius: 4px;
+  }
+  
+  .filters .material-symbols-outlined,
+  .filters svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .header {
+    padding: 6px 0;
+  }
+  
+  .container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  #loadBtn {
+    min-width: 90px;
+  }
+}
+
 /* ==================== Media Queries ==================== */
 @media (max-width: 1024px) {
   .container {
