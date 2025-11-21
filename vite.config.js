@@ -33,10 +33,12 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: Object.fromEntries(
-        glob.sync('*.html').map(file => [
-          file.replace(/\.html$/, ''),
-          fileURLToPath(new URL(file, import.meta.url))
-        ])
+        glob.sync('*.html')
+          .filter(file => file !== 'tendencias_upload_old.html')
+          .map(file => [
+            file.replace(/\.html$/, ''),
+            fileURLToPath(new URL(file, import.meta.url))
+          ])
       ),
       output: {
         entryFileNames: 'assets/[name]-[hash].js',
